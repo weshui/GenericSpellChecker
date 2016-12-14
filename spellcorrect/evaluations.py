@@ -1,6 +1,7 @@
 # this class defines a series of interface for evaluation purpose
 from numpy import std
 
+# base evaluator class and signature
 class base_evaluator(object):
 	def __init__(self, name, model, dataset):
 		self.evaluater = name
@@ -39,9 +40,12 @@ class base_evaluator(object):
 
 # expected precision
 class precision_eval(base_evaluator):
+
+	# constructor
 	def __init__(self, model, dataset):
 		super(precision_eval, self).__init__('precision', model, dataset)
 
+	# evaluate one sample, of the format (wrong_word, right_words)
 	def eval_one(self, sample):
 		sample = (wrong_word, right_words)
 		temp_ans = set(right_words)
@@ -52,9 +56,12 @@ class precision_eval(base_evaluator):
 
 # expected recall
 class recall_eval(base_evaluator):
+
+	# constructor
 	def __init__(self, model, dataset):
 		super(recall_eval, self).__init__('recall', model, dataset)
 
+	# evaluate one sample, of the format (wrong_word, right_words)
 	def eval_one(self, sample):
 		sample = (wrong_word, right_words)
 		temp_ans = set(right_words)
@@ -65,26 +72,33 @@ class recall_eval(base_evaluator):
 
 # f1 based on expected recall and precision
 class f1_eval(base_evaluator):
+
+	# constructor 
 	def __init__(self, model, dataset):
 		super(recall_eval, self).__init__('f1', model, dataset)
 		self.precision = precision_eval(model, dataset)
 		self.recall = recall_eval(model, dataset)
 		self.ans = None
 
+	# collect both precision and recall
 	def __collect__(self):
 		p_lis = self.precision.collect()
 		r_lis = self.recall.collect()
 		self.ans = [(2 * x * y)/(x+y) for (x,y) in zip(p_lis, r_lis)]
 
+	# eval one sample for both precision and recall
 	def eval_one(self, sample):
 		self.precision.eval_one(sample)
 		self.recall.eval_one(sample)
 
 
+# supported evaluation methods
 SUPPORTED_METHOD = {'precision' : precision_eval, 'recall' : recall_eval, 'f1' : f1_eval}
 
 from models import base_model
 from datasets import base_dataset
+
+# simple eval class
 class simple_eval(object):
 
 	def __init__(self, method, model, dataset):
