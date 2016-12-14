@@ -38,6 +38,8 @@ def discriminative_train(correction, query, errortype):
 	max_iteration_num = 12
 	para_l_list = []
 	para_u_list = {'0':[], '1':[], '2':[], '3':[]}
+	iternum = 0
+	k = 3
 	while iternum < max_iteration_num:
 		iternum += 1 
 		res_states, res_errortypes = algorithm_2(query, k, para_l, para_u)
