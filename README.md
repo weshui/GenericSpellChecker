@@ -1,4 +1,4 @@
-# GenericSpellChecker
+# Generic Spell Checker
 This repo should serve as the final project of Fall 2016 CS598 from University of Illinois at Urbana-Champaign, lectured by [Prof. Chengxiang Zhai][prof].
 
 ## Content
