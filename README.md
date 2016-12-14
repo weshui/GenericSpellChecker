@@ -7,7 +7,7 @@ In this repo, you can find a simple design of a generic spell correction framewo
 The package itself comes with a `setup.py` script, however, it is recomended to use the files directly as these contents are subject to change in future release.
 
 ## Acknowledgment
-The dataset we used and loaded into our corpus are from Google Research, released by [Peter Norvig][peter]. Information about the dataset can be found on its [official website][web].
+The dataset we incorporated into our corpus are from Google Research, released by [Peter Norvig][peter]. Information about the dataset can be found on its [official website][web].
 
 ## Tutorial
 TODO

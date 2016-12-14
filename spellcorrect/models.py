@@ -1,3 +1,7 @@
+# this class contains a list of predefined models and a base model
+
+
+# based model, defines what should be implemented for any particular model
 class base_model(object):
 	def __init__(self, model_name):
 		self.model_name = model_name
