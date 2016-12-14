@@ -1,3 +1,5 @@
+# this file defines a list of exisiting dataset
+
 SUPPORTED_MODEL = ['unigram', 'bigram']
 
 class NotSupportedError(Exception):
@@ -34,6 +36,9 @@ class supervised_dataset(object):
 		elif model == 'unigram':
 			self.datamodel = 'unigram'
 
+	# def split_cv(self, copies):
+		
+
 	def __gen__(self, datafile, delimeter, user_defined=None):
 		for line in open(datafile, 'r'):
 			if not user_defined:
@@ -48,6 +53,8 @@ class supervised_dataset(object):
 		self.data = __gen__(datafile, delimeter, user_defined=line_prop)
 
 	def next(self):
-		assert (self.data != None),"data is not initalized"
-		return self.data.next()
+		try:
+			return self.data.next()
+		except AttributeError:
+			print 'please initalize the dataset first'
 
