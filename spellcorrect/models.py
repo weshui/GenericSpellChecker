@@ -1,5 +1,3 @@
-
-
 class base_model(object):
 	def __init__(self, model_name):
 		self.model_name = model_name
@@ -9,6 +7,4 @@ class base_model(object):
 
 	def eval_one(self, sample):
 		pass # enter how your model will evaluate on one input
-
-
 

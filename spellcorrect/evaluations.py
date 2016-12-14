@@ -85,7 +85,7 @@ SUPPORTED_METHOD = {'precision' : precision_eval, 'recall' : recall_eval, 'f1' :
 
 from models import base_model
 from datasets import base_dataset
-class simpleeval(object):
+class simple_eval(object):
 
 	def __init__(self, method, model, dataset):
 		assert isinstance(model, base_model)
