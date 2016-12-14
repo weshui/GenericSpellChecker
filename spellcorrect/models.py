@@ -12,3 +12,11 @@ class base_model(object):
 	def eval_one(self, sample):
 		pass # enter how your model will evaluate on one input
 
+# this class is for testing purpose
+class plain_model(base_model):
+	def __init__(self, model_name):
+		super(plain_model, self).__init__(model_name)
+
+	# identity word
+	def eval_one(self, sample):
+		return [sample]

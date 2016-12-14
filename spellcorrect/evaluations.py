@@ -5,7 +5,7 @@ from numpy import std
 class base_evaluator(object):
 	def __init__(self, name, model, dataset):
 		self.evaluater = name
-		self.data = dataset
+		self.data = dataset.data
 		self.model = model
 		self.ans = []
 
@@ -47,7 +47,7 @@ class precision_eval(base_evaluator):
 
 	# evaluate one sample, of the format (wrong_word, right_words)
 	def eval_one(self, sample):
-		sample = (wrong_word, right_words)
+		(wrong_word, right_words) = sample
 		temp_ans = set(right_words)
 		lis_of_words = self.model.eval_one(wrong_word)
 		assert type(lis_of_words) == list
@@ -63,7 +63,7 @@ class recall_eval(base_evaluator):
 
 	# evaluate one sample, of the format (wrong_word, right_words)
 	def eval_one(self, sample):
-		sample = (wrong_word, right_words)
+		(wrong_word, right_words) = sample
 		temp_ans = set(right_words)
 		lis_of_words = self.model.eval_one(wrong_word)
 		assert type(lis_of_words) == list
@@ -75,7 +75,7 @@ class f1_eval(base_evaluator):
 
 	# constructor 
 	def __init__(self, model, dataset):
-		super(recall_eval, self).__init__('f1', model, dataset)
+		super(f1_eval, self).__init__('f1', model, dataset)
 		self.precision = precision_eval(model, dataset)
 		self.recall = recall_eval(model, dataset)
 		self.ans = None
@@ -84,7 +84,7 @@ class f1_eval(base_evaluator):
 	def __collect__(self):
 		p_lis = self.precision.collect()
 		r_lis = self.recall.collect()
-		self.ans = [(2 * x * y)/(x+y) for (x,y) in zip(p_lis, r_lis)]
+		self.ans = [(2 * x * y)/(x+y) if (x+y) != 0 else 0 for (x,y) in zip(p_lis, r_lis)]
 
 	# eval one sample for both precision and recall
 	def eval_one(self, sample):
