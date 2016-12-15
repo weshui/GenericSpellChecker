@@ -10,6 +10,8 @@ def read_lexicon(path):
 	return dict((el,1) for el in words)
 
 
+# Check if the word can be splitted into two words
+# return the splitted string if such 
 def check_split(word): 
 	for i in range(1, len(word)): 
 		if (lexicon.get(word[:i]) != None) and (lexicon.get(word[i:]) != None): 
@@ -17,6 +19,7 @@ def check_split(word):
 	return None
 
 # Algorithm_2 in ghmm for query correction paper
+# gnerate candidates based on edit distance and return the top k corrections based on scoring funciton
 # generate max top k candidate with each word within edit distance
 # @query - list of query words
 # @k - max number of returned correction queries
@@ -49,10 +52,11 @@ def algorithm_2(query, k, _la, _mu):
 			error_type = [1]*len(candidate_words)
 
 
+		# Combine each candidate, and filter the corrections ranked lower than k 
 		updated_corrections = []
 		updated_states = []
 		for i in range(len(corrections)):
-
+			# if merging case
 			if len(corrections[i])>0 and corrections[i][-1] == None: 
 				merge = query[m-1] + candidate_words[0]
 				if(lexicon.get(merge)!=None):
@@ -60,6 +64,7 @@ def algorithm_2(query, k, _la, _mu):
 					updated_corrections.append(updated_correction)
 					updated_state = states[i] + [2]
 					updated_states.append(updated_state)
+			# if other case 
 			else: 
 				for j in range(len(candidate_words)):
 					updated_correction = corrections[i] + [candidate_words[j]]
@@ -70,9 +75,11 @@ def algorithm_2(query, k, _la, _mu):
 				    updated_corrections.append(corrections[i]+[None])
 				    updated_states.append(states[i]+[4])
 
+		#update correcions at end of each iteration
 		corrections = updated_corrections
 		states = updated_states
 	
+		# Sorting the top k candidates 
         scorelist = []
         for i in range(len(corrections)):
             scorelist.append(score_function(corrections[i], query, states[i], _la , _mu))
