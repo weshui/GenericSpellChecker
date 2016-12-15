@@ -20,3 +20,4 @@ class plain_model(base_model):
 	# identity word
 	def eval_one(self, sample):
 		return [sample]
+		
