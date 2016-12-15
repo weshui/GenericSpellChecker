@@ -10,7 +10,19 @@ The package itself comes with a `setup.py` script, however, it is recomended to 
 The dataset we incorporated into our corpus are from Google Research, released by [Peter Norvig][peter]. Information about the dataset can be found on its [official website][web].
 
 ## Tutorial
-TODO
+To run the default gHMM model with framework default lexicon, go to GenericSpellChecker/spellcorrect/ghmm and run 
+```
+python algorithm2.py [query to correct] [max number of correction ] [path to lexicon]
+```
+An example of such run is:
+```
+python algorithm2.py “a dat saton a door mat” 3 ../../file.txt
+```
+By default, the result will contain 3 types of errors:
+Transformation: dat->cat
+Splitting: saton-> sat on
+Merging: door mat -> doormat
+
 
 
 [//]: # (These are reference links used in the body of this note and get stripped out when the markdown processor does its job. There is no need to format nicely because it shouldn't be seen. Thanks SO - http://stackoverflow.com/questions/4823468/store-comments-in-markdown-syntax)
