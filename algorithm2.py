@@ -13,8 +13,6 @@ def read_lexicon(path):
 lexicon = read_lexicon("file.txt")
 
 def check_split(word): 
-	print lexicon
-	
 	for i in range(1, len(word)): 
 		if (lexicon.get(word[:i]) != None) and (lexicon.get(word[i:]) != None): 
 			return word[:i]+" "+word[i:]
@@ -82,23 +80,21 @@ def algorithm_2(query, k, _la, _mu):
             scorelist.append(score_function(corrections[i], query, states[i], _la , _mu))
         sorted_idx = [x for (y,x) in sorted(zip(scorelist,range(len(corrections))), reverse=True )]
         
-        #print "print sorted_idx, corrections, states, scorelist", sorted_idx, corrections, states, scorelist
         topi = 1
-        for si in sorted_idx[0:k]:
+        for si in sorted_idx[0:min(k, len(corrections))]:
             print topi, scorelist[si], corrections[si], states[si]
             topi += 1
 
-        #print "top3", corrections[sorted_idx[0:3]], states[sorted_idx[0:3]], scorelist[sorted_idx[0:3]]
         return ([corrections[sorted_idx[0]]], [states[sorted_idx[0]]])
 
 
 if __name__=="__main__":
 	query = sys.argv[1]
+	k = int(sys.argv[2])
 	query = query.split()
 	tmp = [random.random() for i in range(5)]
-        para_u = dict(zip(range(5),tmp))
-        print "para+U", para_u, query
-	print algorithm_2(query, 5, 2, para_u)
+	para_u = dict(zip(range(5),tmp))
+	algorithm_2(query, k, 2, para_u)
 
 
 
