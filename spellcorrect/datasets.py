@@ -104,3 +104,4 @@ def load_small_dictionary():
 	ds.load('../corpus/count_1w.txt', delimeter='\t')
 	return ds
 
+
