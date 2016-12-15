@@ -19,9 +19,9 @@ An example of such run is:
 python algorithm2.py “a dat saton a door mat” 3 ../../file.txt
 ```
 By default, the result will contain 3 types of errors:
-Transformation: dat->cat
-Splitting: saton-> sat on
-Merging: door mat -> doormat
+* Transformation: dat->cat
+* Splitting: saton-> sat on
+* Merging: door mat -> doormat
 
 
 
