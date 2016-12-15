@@ -12,7 +12,7 @@ def read_lexicon(path):
 
 # Check if the word can be splitted into two words
 # return the splitted string if such 
-def check_split(word): 
+def check_split(word, lexicon): 
 	for i in range(1, len(word)): 
 		if (lexicon.get(word[:i]) != None) and (lexicon.get(word[i:]) != None): 
 			return word[:i]+" "+word[i:]
@@ -30,14 +30,14 @@ def check_split(word):
 # 1 - misuse
 # 2 - merging 
 # 3 - splitting
-def algorithm_2(query, k, _la, _mu):
+def algorithm_2(query, k, _la, _mu,lexicon):
 	corrections = [[]]
 	states = [[]]
 	#for m in range(len(query)): 
 	for m in range(len(query)):
 		# transformation or split
 		if lexicon.get(query[m]) == None: 
-			split = check_split(query[m])
+			split = check_split(query[m], lexicon)
 			# transformation
 			if split == None:
 				candidate_words = list(candidates.candidates(query[m], 2, lexicon))
@@ -100,7 +100,7 @@ if __name__=="__main__":
 	query = query.split()
 	tmp = [random.random() for i in range(5)]
 	para_u = dict(zip(range(5),tmp))
-	algorithm_2(query, k, 2, para_u)
+	algorithm_2(query, k, 2, para_u, lexicon)
 
 
 
