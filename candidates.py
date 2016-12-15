@@ -39,9 +39,9 @@ def filter(words, lexicon):
 def candidates(word, distance, lexicon): 
     "Generate possible spelling corrections for word."
     if distance == 1:
-    	return (filter([word], lexicon).union(filter(edits1(word), lexicon)))
+    	return (filter([word], lexicon) or (filter(edits1(word), lexicon)))
     elif distance == 2:
-    	return (filter([word], lexicon).union(filter(edits1(word), lexicon)).union(filter(edits2(word), lexicon)))
+    	return (filter([word], lexicon) or (filter(edits1(word), lexicon)) or (filter(edits2(word), lexicon)))
 
 
 # For module testing purpose

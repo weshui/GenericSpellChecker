@@ -53,7 +53,6 @@ def algorithm_2(query, k, _la, _mu):
 			error_type = [1]*len(candidate_words)
 
 
-
 		updated_corrections = []
 		updated_states = []
 		for i in range(len(corrections)):
@@ -71,8 +70,9 @@ def algorithm_2(query, k, _la, _mu):
 					updated_corrections.append(updated_correction)
 					updated_state = states[i] + [error_type[j]]
 					updated_states.append(updated_state)
-				updated_corrections.append(corrections[i]+[None])
-				updated_states.append(states[i]+[4])
+                                if m < len(query)-1:
+				    updated_corrections.append(corrections[i]+[None])
+				    updated_states.append(states[i]+[4])
 
 		corrections = updated_corrections
 		states = updated_states
@@ -80,12 +80,16 @@ def algorithm_2(query, k, _la, _mu):
         scorelist = []
         for i in range(len(corrections)):
             scorelist.append(score_function(corrections[i], query, states[i], _la , _mu))
-        sorted_idx = [x for (y,x) in sorted(zip(scorelist,range(len(corrections))))]
+        sorted_idx = [x for (y,x) in sorted(zip(scorelist,range(len(corrections))), reverse=True )]
         
-        print "print sorted_idx, corrections, states, scorelist", sorted_idx, corrections, states, scorelist
+        #print "print sorted_idx, corrections, states, scorelist", sorted_idx, corrections, states, scorelist
+        topi = 1
+        for si in sorted_idx[0:k]:
+            print topi, scorelist[si], corrections[si], states[si]
+            topi += 1
 
         #print "top3", corrections[sorted_idx[0:3]], states[sorted_idx[0:3]], scorelist[sorted_idx[0:3]]
-        #return (corrections[sorted_idx[0]], states[sorted_idx[0])
+        return ([corrections[sorted_idx[0]]], [states[sorted_idx[0]]])
 
 
 if __name__=="__main__":
@@ -94,7 +98,7 @@ if __name__=="__main__":
 	tmp = [random.random() for i in range(5)]
         para_u = dict(zip(range(5),tmp))
         print "para+U", para_u, query
-	print algorithm_2(query, 2, 2, para_u)
+	print algorithm_2(query, 5, 2, para_u)
 
 
 

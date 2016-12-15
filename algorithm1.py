@@ -5,7 +5,7 @@ from weblm import weblm_req
 from errormodel import errormodel
 from algorithm2 import algorithm_2
 
-def discriminative_train(correction, query, errortype):	
+def discriminative_train(corrections, queries, errortypes):	
 	'''correction, query, errortype lists '''
         #init parameter
 	para_l = random.random()
@@ -19,11 +19,15 @@ def discriminative_train(correction, query, errortype):
         max_iteration_num = 3
 	iternum = 0
 	k = 3
-
-	while iternum < max_iteration_num:
-		iternum += 1 
-		res_states, res_errortypes = algorithm_2(query, k, para_l, para_u)
-		topone_state = res_states[0]
+        
+        for eci in range(len(corrections)):
+            correction = corrections[eci]
+            query = queries[eci]
+            errortype = errortypes[eci]
+            iternum = 0
+	    while iternum < max_iteration_num:
+	        res_states, res_errortypes = algorithm_2(query, k, para_l, para_u)
+	        topone_state = res_states[0]
 		topone_errortype = res_errortypes[0]
                 print "itern:",iternum,"topone state",topone_state, "topone_errortype", topone_errortype
 		if correction !=  topone_state :
@@ -37,16 +41,26 @@ def discriminative_train(correction, query, errortype):
 				para_u_list[ek].append(para_u[ek])
                         print "Now para_l",para_l, "para_u", para_u
 		else:
-			break
-	
+                    if iternum == 0:
+			para_l_list.append(para_l)
+			for ek in para_u_list.keys():
+				para_u_list[ek].append(para_u[ek])
+                        
+		    break 
+	        iternum += 1 
         print "param lists", para_l_list, para_u_list
         f_para_l = np.mean(para_l_list)
 	f_para_u = dict(zip([0, 1, 2, 3, 4],[0,0,0,0,0])) 
         	
         for ek in para_u_list.keys():
-		f_para_u[ek] = np.mean(para_u_list[ek])
+	    f_para_u[ek] = np.mean(para_u_list[ek])
 	print "final trained params",f_para_l, f_para_u	
-	return f_para_l, f_para_u
+	
+        return f_para_l, f_para_u
 
 
-#discriminative_train()
+correction = [["a", "cat", "sat on","mat"]]
+query = [["a", "bat", "saton","mat"]]
+errortype = [[1,0,2,1]]
+
+discriminative_train(correction,query,errortype)
