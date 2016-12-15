@@ -10,8 +10,6 @@ def read_lexicon(path):
 	return dict((el,1) for el in words)
 
 
-lexicon = read_lexicon("file.txt")
-
 def check_split(word): 
 	for i in range(1, len(word)): 
 		if (lexicon.get(word[:i]) != None) and (lexicon.get(word[i:]) != None): 
@@ -91,6 +89,7 @@ def algorithm_2(query, k, _la, _mu):
 if __name__=="__main__":
 	query = sys.argv[1]
 	k = int(sys.argv[2])
+	lexicon = read_lexicon(sys.argv[3])
 	query = query.split()
 	tmp = [random.random() for i in range(5)]
 	para_u = dict(zip(range(5),tmp))
