@@ -1,14 +1,16 @@
 ########### Python 2.7 #############
 import httplib, urllib, base64, json
 
-def weblm_req(prevstr, cwords):
+def weblm_req(prevstr, cword):
 	'''Input previous str and current word list, call webLM API to get the conditional probability'''
 	
 	#Request body
 	body = {}
 	body['queries'] = []
-	for word in cwords:
-		body['queries'].append({"words":prevstr,"word":word})	
+	body['queries'].append({"words":prevstr,"word":cword})	
+        
+        if prevstr == None or prevstr == "" or cword == None or cword == "" :
+            return 0
 
 	headers = {
     	# Request headers
@@ -27,12 +29,13 @@ def weblm_req(prevstr, cwords):
     		conn.request("POST", "/text/weblm/v1.0/calculateConditionalProbability?%s" % params, json.dumps(body), headers)
     		response = conn.getresponse()
     		data = response.read()
-    		print(data)
-    		conn.close()
-		return data
+    		#print "weblmresponse", data
+    		res = json.loads(data)
+                conn.close()
+		return res["results"][0]["probability"]
 	except Exception as e:
-    		print("[Errno {0}] {1}".format(e.errno, e.strerror))
-
+    		print "error",str(e), e
+                return 0
 #Example
 # 	weblm_req("hello world wide", ['web','range','open'])
 #	return and print 
