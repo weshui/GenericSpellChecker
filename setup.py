@@ -1,8 +1,8 @@
 from distutils.core import setup
 
 setup(
-    name='spellcorrect',
+    name='spellck',
     version='0.1dev',
-    packages=['spellc',],
+    packages=['spellcorrect',],
     license='MIT'
 )
