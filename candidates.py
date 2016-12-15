@@ -39,11 +39,9 @@ def filter(words, lexicon):
 def candidates(word, distance, lexicon): 
     "Generate possible spelling corrections for word."
     if distance == 1:
-    	return (filter([word], lexicon) or filter(edits1(word), lexicon))
+    	return (filter([word], lexicon).union(filter(edits1(word), lexicon)))
     elif distance == 2:
-    	return (filter([word], lexicon) or filter(edits1(word), lexicon) or filter(edits2(word), lexicon))
-    else: 
-    	return (filter([word], lexicon) or filter(edits1(word), lexicon) or filter(edits2(word), lexicon) or filter(edits3(word), lexicon))
+    	return (filter([word], lexicon).union(filter(edits1(word), lexicon)).union(filter(edits2(word), lexicon)))
 
 
 # For module testing purpose
@@ -52,4 +50,5 @@ if __name__ == "__main__":
 	target = sys.argv[1]
 	distance = int(sys.argv[2])
 	lexicon = read_lexicon("file.txt")
-	candidate = candidates(target, distance)
+	candidate = candidates(target, distance, lexicon)
+	print candidate

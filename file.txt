@@ -9,3 +9,5 @@ hat
 homepage
 home
 page
+doormat
+door
